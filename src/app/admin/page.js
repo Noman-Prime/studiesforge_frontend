@@ -1,0 +1,100 @@
+"use client";
+
+import Link from "next/link";
+import {
+    Images,
+    BookOpen,
+    Library,
+    FileText,
+    CircleHelp,
+    ArrowRight,
+} from "lucide-react";
+
+const Admin = () => {
+    const pages = [
+        {
+            name: "Sliders",
+            description: "Manage homepage sliders",
+            href: "/admin/slider",
+            icon: Images,
+        },
+        {
+            name: "Subjects",
+            description: "Manage all subjects",
+            href: "/admin/subject",
+            icon: BookOpen,
+        },
+        {
+            name: "Chapters",
+            description: "Manage subject chapters",
+            href: "/admin/chapter/create",
+            icon: Library,
+        },
+        {
+            name: "Topics",
+            description: "Manage chapter topics",
+            href: "/admin/topic/create",
+            icon: FileText,
+        },
+        {
+            name: "MCQs",
+            description: "Manage practice questions",
+            href: "/admin/MCQS/create",
+            icon: CircleHelp,
+        },
+    ];
+    console.log("API URL: ", process.env.NEXT_PUBLIC_API);
+    
+
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <div className="mx-auto max-w-7xl p-8">
+                <div className="mb-10">
+                    <h1 className="text-4xl font-bold text-[#2B3F43]">
+                        Admin Dashboard
+                    </h1>
+
+                    <p className="mt-2 text-gray-600">
+                        Manage your MDCAT website content from one place.
+                    </p>
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {pages.map((page) => {
+                        const Icon = page.icon;
+
+                        return (
+                            <Link
+                                key={page.name}
+                                href={page.href}
+                                className="group rounded-2xl bg-[#2B3F43] p-6 shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                            >
+                                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-white text-[#2B3F43]">
+                                    <Icon size={28} />
+                                </div>
+
+                                <h2 className="text-2xl font-bold text-white">
+                                    {page.name}
+                                </h2>
+
+                                <p className="mt-2 text-sm text-gray-300">
+                                    {page.description}
+                                </p>
+
+                                <div className="mt-6 flex items-center gap-2 font-medium text-white">
+                                    Manage
+                                    <ArrowRight
+                                        size={18}
+                                        className="transition group-hover:translate-x-2"
+                                    />
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Admin;
