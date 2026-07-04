@@ -67,7 +67,7 @@ const Create = () => {
                   {preview ? (
                     <img src={preview} alt="Preview" className="h-full w-full object-cover" />
                   ) : (
-                    <span className="text-lg text-gray-400">No Image Selected</span>
+                    <span className="text-lg text-gray-900">No Image Selected</span>
                   )}
                 </div>
                 <div className="border-t p-5">
@@ -78,11 +78,11 @@ const Create = () => {
             <div className="flex w-full flex-col space-y-6">
               <div>
                 <label className="mb-2 block font-semibold text-[#2B3F43]">Subject Title</label>
-                <input type="text" name="title" value={data.title} onChange={changeData} placeholder="Enter subject title..." className="w-full rounded-xl border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
+                <input type="text" name="title" value={data.title} onChange={changeData} placeholder="Enter subject title..." className="w-full rounded-xl text-gray-900 border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
               </div>
               <div className="flex-grow">
                 <label className="mb-2 block font-semibold text-[#2B3F43]">Description</label>
-                <textarea name="description" value={data.description} onChange={changeData} rows={9} placeholder="Enter subject description..." className="w-full resize-none rounded-xl border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
+                <textarea name="description" value={data.description} onChange={changeData} rows={9} placeholder="Enter subject description..." className="w-full resize-none rounded-xl text-gray-900 border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
               </div>
               <div className="flex justify-end pt-4">
                 <button type="submit" disabled={loading} className="flex items-center gap-2 rounded-xl bg-[#2B3F43] px-8 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50">
