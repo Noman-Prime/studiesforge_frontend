@@ -2,131 +2,92 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Slider = () => {
   const [sliders, setSliders] = useState([]);
   const [position, setPosition] = useState(0);
 
-  // Fetch initial data
   const getSlider = async () => {
     try {
-      const result = await axios.get(
-        "http://localhost:5000/api/v1/slider/get/all",
-        { withCredentials: true }
-      );
-
-      if (result.data) {
-        setSliders(result.data.slider);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/slider/get/all`, { withCredentials: true });
+      if (data?.slider) {
+        setSliders(data.slider);
         setPosition(0);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Slider fetch error:", error);
     }
   };
 
   useEffect(() => {
     getSlider();
-  }, []);
 
-  // SSE connection
-  useEffect(() => {
-    const SSE = new EventSource(
-      "http://localhost:5000/api/v1/slider/stream"
-    );
-
+    const SSE = new EventSource(`${process.env.NEXT_PUBLIC_API}/api/v1/slider/stream`);
     SSE.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-
-        if (data && data.slider) {
-          setSliders(data.slider);
-          setPosition(0);
-        }
-      } catch (error) {
-        console.log(`parse error: ${error}`);
+        if (data?.slider) setSliders(data.slider);
+      } catch (err) {
+        console.error("SSE parse error:", err);
       }
     };
 
-    SSE.onerror = (error) => {
-      console.log(`SSE stream error: ${error}`);
-    };
-
-    return () => {
-      SSE.close();
-    };
+    return () => SSE.close();
   }, []);
 
-  // Auto slide
   useEffect(() => {
     if (sliders.length === 0) return;
-
     const interval = setInterval(() => {
-      setPosition((prev) =>
-        prev === sliders.length - 1 ? 0 : prev + 1
-      );
-    }, 3000);
-
+      setPosition((prev) => (prev === sliders.length - 1 ? 0 : prev + 1));
+    }, 5000); // Increased to 5s for better readability
     return () => clearInterval(interval);
   }, [sliders]);
 
-  // Next
-  const next = () => {
-    if (position < sliders.length - 1) {
-      setPosition(position + 1);
-    }
-  };
-
-  // Prev
-  const prev = () => {
-    if (position > 0) {
-      setPosition(position - 1);
-    }
-  };
+  if (sliders.length === 0) return null;
 
   return (
-    <>
-      {sliders.length > 0 && (
+    <div className="relative h-[300px] w-full overflow-hidden shadow-lg md:h-[500px]">
+      {sliders.map((slider, index) => (
         <div
-          className="relative w-full overflow-hidden h-[240px] sm:h-[300px] md:h-[400px] lg:h-[500px]"
+          key={slider._id}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === position ? "opacity-100" : "opacity-0"
+            }`}
         >
-          {/* Image */}
           <img
-            src={sliders[position]?.image?.url}
-            alt="slider"
-            className="w-full h-full object-cover object-center transition-all duration-500"
+            src={slider.image?.url}
+            alt={slider.description || "Slider"}
+            className="h-full w-full object-cover"
           />
+          {/* Gradient Overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-          {/* Description */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/50 backdrop-blur-sm text-white text-sm md:text-base font-semibold rounded-lg text-center">
-            {sliders[position]?.description}
+          <div className="absolute bottom-8 left-0 w-full px-6 text-center">
+            <p className="mx-auto max-w-2xl rounded-full bg-white/10 px-6 py-2 text-sm font-medium text-white backdrop-blur-md md:text-lg">
+              {slider.description}
+            </p>
           </div>
-
-          {/* Prev */}
-          {sliders.length > 1 && (
-            <button
-              onClick={prev}
-              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 
-                         bg-black/40 hover:bg-black/70 text-white 
-                         p-2 sm:p-3 rounded-full"
-            >
-              &#10094;
-            </button>
-          )}
-
-          {/* Next */}
-          {sliders.length > 1 && (
-            <button
-              onClick={next}
-              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 
-                         bg-black/40 hover:bg-black/70 text-white 
-                         p-2 sm:p-3 rounded-full"
-            >
-              &#10095;
-            </button>
-          )}
         </div>
+      ))}
+
+      {/* Navigation Buttons */}
+      {sliders.length > 1 && (
+        <>
+          <button
+            onClick={() => setPosition((p) => (p === 0 ? sliders.length - 1 : p - 1))}
+            className="absolute left-4 top-1/2 flex -translate-y-1/2 rounded-full bg-white/20 p-2 text-white backdrop-blur transition hover:bg-white/40"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={() => setPosition((p) => (p === sliders.length - 1 ? 0 : p + 1))}
+            className="absolute right-4 top-1/2 flex -translate-y-1/2 rounded-full bg-white/20 p-2 text-white backdrop-blur transition hover:bg-white/40"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

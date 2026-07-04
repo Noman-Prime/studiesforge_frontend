@@ -1,20 +1,17 @@
-"use client"
+"use client";
 
-import Slider from "@/components/slider"
-import Subjects from "@/components/subject"
-import SubjectsTopic from "@/components/subjectsTopic"
-import { useEffect } from "react"
+import Slider from "@/components/slider";
+import Subjects from "@/components/subject";
+import SubjectsTopic from "@/components/subjectsTopic";
 
 const Home = () => {
   return (
-    <>
-      <main>
-        <Slider />
-        <Subjects />
-        <SubjectsTopic />
-      </main>
-    </>
-  )
-}
+    <div className="flex flex-col gap-12 pb-12">
+      <Slider />
+      <Subjects />
+      <SubjectsTopic />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

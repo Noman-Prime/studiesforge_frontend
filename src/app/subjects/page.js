@@ -1,22 +1,25 @@
 "use client";
 
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Loader2, BookOpenText } from "lucide-react";
 
 const Subjects = () => {
-  const [ subjects, setSubjects ] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getSubjects = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/subject/all",
+        `${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`,
         { withCredentials: true }
       );
-      if (response.data) setSubjects(response.data.subject);
+      setSubjects(response.data.subject || []);
     } catch (error) {
-      console.log(`Api is not working: ${error}`);
+      console.error("Error fetching subjects:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -24,33 +27,47 @@ const Subjects = () => {
     getSubjects();
   }, []);
 
+  if (loading) return (
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <Loader2 className="h-10 w-10 animate-spin text-[#2B3F43]" />
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gray-100 p-3">
-      <h1 className="text-lg font-bold text-gray-800 mb-4 text-center">
-        All Subjects
-      </h1>
+    <div className="mx-auto max-w-7xl px-6 py-12">
+      {/* Page Header */}
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-extrabold text-[#2B3F43] sm:text-5xl">
+          Browse Subjects
+        </h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Select a subject to start your learning journey.
+        </p>
+      </div>
 
       {subjects.length === 0 ? (
-        <p className="text-center text-gray-500">No subjects found...</p>
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 p-20 text-gray-500">
+          <BookOpenText size={48} className="mb-4 text-gray-300" />
+          <p>No subjects are currently available.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2">
-
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {subjects.map((subject) => (
             <Link
               key={subject._id}
-              className="rounded-sm overflow-hidden shadow-sm bg-white transform transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
               href={`/subjectDetail/${subject._id}`}
+              className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border border-gray-100"
             >
-              <div className="w-full h-16 sm:h-20 md:h-28 overflow-hidden">
+              <div className="relative h-40 w-full overflow-hidden sm:h-48">
                 <img
                   src={subject?.image?.url}
                   alt={subject.title}
-                  className="w-full h-full object-cover block transition-transform duration-300 hover:scale-110"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
-              <div className="bg-[#2B3F43] p-1 sm:p-2">
-                <h2 className="text-[10px] sm:text-sm font-semibold text-white truncate">
+              <div className="flex flex-1 items-center justify-center p-4">
+                <h2 className="text-center font-bold text-[#2B3F43] group-hover:text-[#2B3F43]/80">
                   {subject.title}
                 </h2>
               </div>

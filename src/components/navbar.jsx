@@ -7,11 +7,8 @@ import { useEffect, useRef, useState } from "react";
 const Navbar = () => {
     const [show, setShow] = useState(false);
     const navRef = useRef(null);
-    process.env.API
-    
-    const handleShow = () => {
-        setShow(!show);
-    };
+
+    const handleShow = () => setShow(!show);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -20,41 +17,50 @@ const Navbar = () => {
             }
         };
         document.addEventListener("mousedown", handleOutsideClick);
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
+        return () => document.removeEventListener("mousedown", handleOutsideClick);
     }, []);
 
     return (
-        <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-2 bg-[#2B3F43] border-b border-slate-700 shadow-md">
-            <Link href="/" className="text-xl px-3 py-1 rounded-[10px] border-2 transition-colors hover:text-blue-600 font-bold bg-white text-black">
-                MoonAccedmy
-            </Link>
-            <div className="hidden md:flex gap-4 text-white text-sm font-medium">
-                <Link href="/" className="px-3 py-1 rounded-[10px] border-2 transition-colors hover:text-blue-600 font-bold bg-white text-black">
-                    Home
+        <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#2B3F43] px-6 py-4 shadow-sm">
+            <div className="mx-auto flex max-w-7xl items-center justify-between">
+                
+                {/* Logo */}
+                <Link href="/" className="text-xl font-bold tracking-tight text-white transition hover:opacity-80">
+                    StudiesForge
                 </Link>
-                <Link href="/subjects" className="px-3 py-1 rounded-[10px] border-2 transition-colors hover:text-blue-600 font-bold bg-white text-black">
-                    Subjects
-                </Link>
-            </div>
 
-            {/* Mobile Container (Toggle + Menu) */}
-            <div ref={navRef} className="md:hidden flex items-center text-white">
-                <button onClick={handleShow} className="p-1">
-                    {show ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                {/* Desktop Nav */}
+                <div className="hidden items-center gap-8 md:flex">
+                    <Link href="/" className="text-sm font-medium text-gray-200 transition hover:text-white">
+                        Home
+                    </Link>
+                    <Link href="/subjects" className="text-sm font-medium text-gray-200 transition hover:text-white">
+                        Subjects
+                    </Link>
+                </div>
 
-                {show && (
-                    <div className="absolute top-[52px] right-6 w-40 bg-[#2B3F43] border border-white rounded-[15px] p-3 flex flex-col gap-2 shadow-2xl z-40">
-                        <Link href="/" className="block bg-white text-black text-sm font-bold text-center py-1.5 rounded-[10px]" onClick={() => setShow(false)}>
-                            Home
-                        </Link>
-                        <Link href="/subjects" className="block bg-white text-black text-sm font-bold text-center py-1.5 rounded-[10px]" onClick={() => setShow(false)}>
-                            Subjects
-                        </Link>
-                    </div>
-                )}
+                {/* Mobile Toggle */}
+                <div ref={navRef} className="md:hidden">
+                    <button 
+                        onClick={handleShow} 
+                        className="flex items-center text-white p-1"
+                        aria-label="Toggle Menu"
+                    >
+                        {show ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+
+                    {/* Mobile Menu Dropdown */}
+                    {show && (
+                        <div className="absolute right-6 top-[72px] w-48 animate-in fade-in zoom-in-95 flex flex-col gap-2 rounded-2xl border border-white/10 bg-[#2B3F43] p-4 shadow-2xl">
+                            <Link href="/" className="block rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10" onClick={() => setShow(false)}>
+                                Home
+                            </Link>
+                            <Link href="/subjects" className="block rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10" onClick={() => setShow(false)}>
+                                Subjects
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );

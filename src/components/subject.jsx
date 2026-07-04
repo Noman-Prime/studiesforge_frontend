@@ -1,22 +1,19 @@
 "use client";
 
-// import { useStream } from "@/SSE/subject";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const Subjects = () => {
-  const [ subjects, setSubjects ] = useState([]);
+  const [subjects, setSubjects] = useState([]);
 
   const getSubjects = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v1/subject/all",
-        { withCredentials: true }
-      );
-      if (response.data) setSubjects(response.data.subject);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`, { withCredentials: true });
+      if (data?.subject) setSubjects(data.subject);
     } catch (error) {
-      console.log(`Api is not working: ${error}`);
+      console.error("Subjects fetch error:", error);
     }
   };
 
@@ -24,69 +21,56 @@ const Subjects = () => {
     getSubjects();
   }, []);
 
-  const visibleSubjects = subjects.slice(0, 3);
+  // Show only 3 subjects + the "View All" card
+  const displaySubjects = subjects.slice(0, 3);
 
   return (
-    <div className="bg-gray-100 px-3 py-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="mx-auto max-w-7xl px-6 py-12">
+      <div className="mb-8 flex items-center justify-between">
+        <h2 className="text-2xl font-bold tracking-tight text-[#2B3F43]">Popular Subjects</h2>
+        <Link href="/subjects" className="flex items-center gap-1 text-sm font-semibold text-[#2B3F43] hover:underline">
+          View all <ArrowRight size={16} />
+        </Link>
+      </div>
 
-        <h1 className="text-base sm:text-lg font-bold text-gray-800 mb-3 text-center">
-          All Subjects
-        </h1>
-
-        {subjects.length === 0 ? (
-          <p className="text-center text-gray-500 text-sm">
-            No subjects found...
-          </p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-
-            {visibleSubjects.map((subject) => (
-              <Link
-                key={subject._id}
-                href={`/subjectDetail/${subject._id}`}
-                className="rounded-sm overflow-hidden bg-white shadow-sm hover:shadow-md transition-transform duration-200 hover:-translate-y-0.5"
-              >
-
-                <div className="h-14 sm:h-20 md:h-24 overflow-hidden bg-gray-200">
-                  {subject?.image?.url ? (
-                    <img
-                      src={subject.image.url}
-                      alt={subject.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">
-                      No Image
-                    </div>
-                  )}
-                </div>
-
-                <div className="bg-[#2B3F43] px-2 py-1">
-                  <h2 className="text-[10px] sm:text-xs font-semibold text-white truncate">
-                    {subject.title}
-                  </h2>
-                </div>
-
-              </Link>
-            ))}
-
-            {/* VIEW ALL CARD */}
+      {subjects.length === 0 ? (
+        <div className="flex h-32 items-center justify-center rounded-2xl border border-dashed border-gray-300 text-gray-500">
+          No subjects available at the moment.
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {displaySubjects.map((subject) => (
             <Link
-              href="/subjects"
-              className="rounded-sm bg-[#2B3F43] text-white flex items-center justify-center hover:opacity-90 transition"
+              key={subject._id}
+              href={`/subjectDetail/${subject._id}`}
+              className="group relative block overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:shadow-lg"
             >
-              <div className="text-center leading-tight">
-                <p className="text-xs font-semibold">View All</p>
-                <p className="text-[10px] opacity-80">Subjects</p>
+              <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                <img
+                  src={subject.image?.url}
+                  alt={subject.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold text-[#2B3F43]">{subject.title}</h3>
+                <p className="text-xs text-gray-500">View Curriculum</p>
               </div>
             </Link>
+          ))}
 
-          </div>
-        )}
-
-      </div>
-    </div>
+          {/* View All Card */}
+          <Link
+            href="/subjects"
+            className="flex flex-col items-center justify-center rounded-2xl bg-[#2B3F43] p-6 text-white transition hover:bg-[#1e2d30]"
+          >
+            <span className="mb-2 text-3xl">→</span>
+            <span className="font-bold">View All</span>
+            <span className="text-xs opacity-70">Browse Library</span>
+          </Link>
+        </div>
+      )}
+    </section>
   );
 };
 
