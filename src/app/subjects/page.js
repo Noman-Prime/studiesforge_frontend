@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Subjects = () => {
-  const { subjects, setSubjects } = useState([]);
+  const [ subjects, setSubjects ] = useState([]);
 
   const getSubjects = async () => {
     try {
