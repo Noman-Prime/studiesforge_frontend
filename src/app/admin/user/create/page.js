@@ -145,7 +145,7 @@ const Create = () => {
                         </label>
                     </div>
                     <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t">
-                        <button type="button" onClick={() => router.back()} className="px-8 py-3 rounded-xl border border-gray-300 font-medium hover:bg-gray-100 transition">Cancel</button>
+                        <button type="button" onClick={() => router.back()} className="px-8 py-3 rounded-xl border border-gray-300 text-gray-900 font-medium hover:bg-gray-100 transition">Cancel</button>
                         <button type="submit" disabled={loading} className="px-10 py-3 rounded-xl bg-[#2B3F43] text-white font-semibold hover:bg-[#203033] transition disabled:opacity-70">
                             {loading ? "Creating..." : "Create Admin"}
                         </button>
