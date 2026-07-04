@@ -3,30 +3,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import { ArrowRight, Plus } from "lucide-react";
+import { Plus, Pencil, Trash2, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 
-const SubjectChaptr = () => {
+const SubjectChapter = () => {
     const { id } = useParams();
-
     const [chapters, setChapters] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const fetchChapters = async () => {
         try {
             setLoading(true);
-
             const res = await axios.get(
-                `http://localhost:5000/mdcat/chapter/subject/${id}`,
+                `${process.env.NEXT_PUBLIC_API}/mdcat/chapter/subject/${id}`,
                 {
                     withCredentials: true,
-                    headers: {
-                        "Cache-Control": "no-cache",
-                    },
+                    headers: { "Cache-Control": "no-cache" },
                 }
             );
-
             setChapters(res.data.chapter || []);
         } catch (error) {
             console.log(error);
@@ -39,16 +34,11 @@ const SubjectChaptr = () => {
     const deleteChapter = async (chapterId) => {
         try {
             const result = await axios.delete(
-                `http://localhost:5000/mdcat/chapter/delete/${chapterId}`,
-                {
-                    withCredentials: true,
-                }
+                `${process.env.NEXT_PUBLIC_API}/mdcat/chapter/delete/${chapterId}`,
+                { withCredentials: true }
             );
-
             if (result.data.success) {
-                toast.success("Chapter deleted");
-
-                // Refresh list after delete
+                toast.success("Chapter deleted successfully");
                 fetchChapters();
             }
         } catch (error) {
@@ -59,25 +49,16 @@ const SubjectChaptr = () => {
 
     useEffect(() => {
         if (!id) return;
-
         fetchChapters();
-
-        // Refresh when user returns to this page
-        const handleFocus = () => {
-            fetchChapters();
-        };
-
+        const handleFocus = () => fetchChapters();
         window.addEventListener("focus", handleFocus);
-
-        return () => {
-            window.removeEventListener("focus", handleFocus);
-        };
+        return () => window.removeEventListener("focus", handleFocus);
     }, [id]);
 
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                Loading...
+                <span className="text-gray-500">Loading...</span>
             </div>
         );
     }
@@ -90,15 +71,14 @@ const SubjectChaptr = () => {
                         <h1 className="text-4xl font-bold text-[#2B3F43]">
                             Subject Chapters
                         </h1>
-
                         <p className="mt-2 text-gray-600">
-                            Browse and manage all chapters of this subject.
+                            Manage and organize all chapters of this subject.
                         </p>
                     </div>
 
                     <Link
                         href="/admin/chapter/create"
-                        className="flex items-center gap-2 rounded-xl bg-[#2B3F43] px-5 py-3 text-white hover:opacity-90"
+                        className="flex items-center gap-2 rounded-xl bg-[#2B3F43] px-5 py-3 text-white transition hover:opacity-90"
                     >
                         <Plus size={18} />
                         Create Chapter
@@ -107,59 +87,58 @@ const SubjectChaptr = () => {
 
                 {chapters.length === 0 ? (
                     <div className="rounded-2xl bg-white p-10 text-center shadow">
-                        <h2 className="text-xl font-semibold text-gray-700">
+                        <BookOpen size={60} className="mx-auto text-gray-300" />
+                        <h2 className="mt-4 text-xl font-semibold text-gray-700">
                             No Chapters Found
                         </h2>
-
                         <p className="mt-2 text-gray-500">
                             Create your first chapter to get started.
                         </p>
                     </div>
                 ) : (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {chapters.map((chapter, index) => (
+                        {chapters.map((chapter) => (
                             <div
                                 key={chapter._id}
-                                className="group overflow-hidden rounded-2xl bg-white shadow-lg hover:-translate-y-2 hover:shadow-2xl transition"
+                                className="group overflow-hidden rounded-2xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
                             >
-                                <div className="p-6 flex flex-col h-full">
-                                    <span className="w-fit rounded-full bg-[#2B3F43]/10 px-3 py-1 text-xs font-semibold text-[#2B3F43]">
+                                <div className="p-5">
+                                    <span className="text-xs font-semibold text-[#2B3F43] bg-[#2B3F43]/10 px-3 py-1 rounded-full">
                                         Chapter {chapter.number}
                                     </span>
-
+                                    
                                     <h2 className="mt-4 text-xl font-bold text-[#2B3F43]">
                                         {chapter.title}
                                     </h2>
 
-                                    <p className="mt-3 text-gray-600 flex-1">
+                                    <p className="mt-2 line-clamp-2 text-gray-600">
                                         {chapter.description}
                                     </p>
 
-                                    <Link
-                                        href={`/admin/topic/${chapter._id}`}
-                                        className="mt-6 flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3 hover:border-[#2B3F43]"
-                                    >
-                                        <span className="font-medium text-[#2B3F43]">
-                                            View Topics
-                                        </span>
-
-                                        <ArrowRight size={20} />
-                                    </Link>
-
-                                    <div className="mt-4 grid grid-cols-2 gap-3">
+                                    <div className="mt-5 flex gap-2">
                                         <Link
                                             href={`/admin/chapter/update/${chapter._id}`}
-                                            className="rounded-xl bg-blue-600 py-2.5 text-center text-white hover:bg-blue-700"
+                                            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-50 py-2.5 text-sm font-semibold text-blue-600 transition hover:bg-blue-100"
                                         >
-                                            Update
+                                            <Pencil size={16} />
+                                            Edit
                                         </Link>
 
                                         <button
                                             onClick={() => deleteChapter(chapter._id)}
-                                            className="rounded-xl bg-red-600 py-2.5 text-white hover:bg-red-700"
+                                            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-50 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                                         >
+                                            <Trash2 size={16} />
                                             Delete
                                         </button>
+
+                                        <Link
+                                            href={`/admin/topic/${chapter._id}`}
+                                            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#2B3F43] py-2.5 text-sm font-semibold text-white transition hover:bg-[#223438]"
+                                        >
+                                            <BookOpen size={16} />
+                                            Open
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -171,4 +150,4 @@ const SubjectChaptr = () => {
     );
 };
 
-export default SubjectChaptr;
+export default SubjectChapter;
