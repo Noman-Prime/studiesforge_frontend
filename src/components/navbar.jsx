@@ -37,9 +37,6 @@ const Navbar = () => {
                 <Link href="/subjects" className="px-3 py-1 rounded-[10px] border-2 transition-colors hover:text-blue-600 font-bold bg-white text-black">
                     Subjects
                 </Link>
-                <Link href="/admin" className="px-3 py-1 rounded-[10px] border-2 transition-colors hover:text-blue-600 font-bold bg-white text-black">
-                    AdminControl
-                </Link>
             </div>
 
             {/* Mobile Container (Toggle + Menu) */}
@@ -55,9 +52,6 @@ const Navbar = () => {
                         </Link>
                         <Link href="/subjects" className="block bg-white text-black text-sm font-bold text-center py-1.5 rounded-[10px]" onClick={() => setShow(false)}>
                             Subjects
-                        </Link>
-                        <Link href="/topicPage" className="block bg-white text-black text-sm font-bold text-center py-1.5 rounded-[10px]" onClick={() => setShow(false)}>
-                            Topics
                         </Link>
                     </div>
                 )}

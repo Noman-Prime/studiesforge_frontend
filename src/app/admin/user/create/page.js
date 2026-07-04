@@ -59,7 +59,7 @@ const Create = () => {
             }
 
             const { data } = await axios.post(
-                "http://localhost:5000/api/v1/user/signup",
+                `${process.env.NEXT_PUBLIC_API}/api/v1/user/signup`,
                 formData,
                 {
                     withCredentials: true,
