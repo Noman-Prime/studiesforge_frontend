@@ -87,57 +87,57 @@ const Create = () => {
             <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-200">
                 <div className="border-b px-6 md:px-8 py-6">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Create Admin</h1>
-                    <p className="text-gray-500 mt-1 text-sm md:text-base">Create a new administrator account for Studies Forge.</p>
+                    <p className="text-gray-600 mt-1 text-sm md:text-base">Create a new administrator account for Studies Forge.</p>
                 </div>
                 <form onSubmit={submitHandler} className="p-6 md:p-8 space-y-8 md:space-y-10">
                     <div className="w-full">
-                        <h2 className="text-lg font-semibold border-b pb-3 mb-6">Personal Information</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 border-b pb-3 mb-6">Personal Information</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
-                                <input type="text" name="firstName" value={form.firstName} onChange={changeHandler} placeholder="Enter first name" required className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">First Name</label>
+                                <input type="text" name="firstName" value={form.firstName} onChange={changeHandler} placeholder="Enter first name" required className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
-                                <input type="text" name="lastName" value={form.lastName} onChange={changeHandler} placeholder="Enter last name" required className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">Last Name</label>
+                                <input type="text" name="lastName" value={form.lastName} onChange={changeHandler} placeholder="Enter last name" required className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                         </div>
                     </div>
                     <div className="w-full">
-                        <h2 className="text-lg font-semibold border-b pb-3 mb-6">Account Information</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 border-b pb-3 mb-6">Account Information</h2>
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                                <input type="email" name="email" value={form.email} onChange={changeHandler} placeholder="admin@studiesforge.com" required className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+                                <input type="email" name="email" value={form.email} onChange={changeHandler} placeholder="admin@studiesforge.com" required className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                                <input type="password" name="password" value={form.password} onChange={changeHandler} placeholder="••••••••" required className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">Password</label>
+                                <input type="password" name="password" value={form.password} onChange={changeHandler} placeholder="••••••••" required className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                         </div>
                     </div>
                     <div className="w-full">
-                        <h2 className="text-lg font-semibold border-b pb-3 mb-6">Additional Information</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 border-b pb-3 mb-6">Additional Information</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                                <input type="text" name="phoneNumber" value={form.phoneNumber} onChange={changeHandler} placeholder="+1 234 567 890" className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">Phone Number</label>
+                                <input type="text" name="phoneNumber" value={form.phoneNumber} onChange={changeHandler} placeholder="+1 234 567 890" className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Country</label>
-                                <input type="text" name="country" value={form.country} onChange={changeHandler} placeholder="United States" className="w-full h-12 rounded-xl border border-gray-300 px-4 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
+                                <label className="block text-sm font-semibold text-gray-900 mb-2">Country</label>
+                                <input type="text" name="country" value={form.country} onChange={changeHandler} placeholder="United States" className="w-full h-12 rounded-xl border border-gray-300 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-4 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition" />
                             </div>
                         </div>
                     </div>
                     <div className="w-full">
-                        <h2 className="text-lg font-semibold border-b pb-3 mb-6">Profile Image</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 border-b pb-3 mb-6">Profile Image</h2>
                         <label htmlFor="image" className="w-full h-48 md:h-64 border-2 border-dashed border-gray-300 rounded-2xl flex flex-col justify-center items-center cursor-pointer hover:border-[#2B3F43] transition">
                             {preview ? (
                                 <img src={preview} alt="Preview" className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-md" />
                             ) : (
                                 <div className="text-center p-4">
                                     <UploadCloud size={55} className="text-gray-400 mx-auto" />
-                                    <h3 className="mt-4 font-semibold text-gray-700">Upload Profile Image</h3>
+                                    <h3 className="mt-4 font-semibold text-gray-900">Upload Profile Image</h3>
                                     <p className="text-gray-500 text-xs md:text-sm mt-1">Click to browse your computer</p>
                                 </div>
                             )}
