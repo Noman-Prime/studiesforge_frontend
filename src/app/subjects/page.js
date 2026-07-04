@@ -1,12 +1,12 @@
 "use client";
 
-import { useStream } from "@/SSE/subject";
+
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Subjects = () => {
-  const { subjects, setSubjects } = useStream();
+  const { subjects, setSubjects } = useState([]);
 
   const getSubjects = async () => {
     try {

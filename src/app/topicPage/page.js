@@ -1,8 +1,5 @@
 // "use client"
 
-import CreareSlider from "@/components/createSlider"
-import CreateSubject from "@/components/createSubject"
-import CreateTopic from "@/components/createTopic"
 
 // import { useEffect, useState } from "react"
 // import axios from "axios"
