@@ -1,29 +1,19 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
-import { ShieldCheck, Mail, Lock } from "lucide-react";
-
+import { ShieldCheck, Mail, Lock, ArrowRight } from "lucide-react";
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
-
-  const changeHandler = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
+  const changeHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/v1/user/login`,
-        form,
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/v1/user/login`, form, { withCredentials: true });
       if (data.success) {
         toast.success("Welcome to StudiesForge");
         router.push("/admin");
@@ -34,87 +24,42 @@ const Login = () => {
       setLoading(false);
     }
   };
-
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm sm:max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-        
-        {/* Header */}
-        <div className="bg-[#2B3F43] text-white p-6 sm:p-8">
-          <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mb-4">
-            <ShieldCheck size={30} />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-[#2B3F43] p-8 text-center text-white">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-6 backdrop-blur-sm">
+            <ShieldCheck size={36} />
           </div>
-          <h1 className="text-2xl font-bold">Admin Login</h1>
-          <p className="text-white/80 mt-1 text-sm">
-            Manage your StudiesForge Dashboard.
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">Admin Login</h1>
+          <p className="text-white/80 mt-2 text-sm">Access your secure dashboard</p>
         </div>
-
-        {/* Form */}
-        <form onSubmit={submitHandler} className="p-6 sm:p-8 space-y-5">
-          {/* Email Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Email Address
-            </label>
-            <div className="flex items-center h-12 border border-gray-300 rounded-xl bg-gray-50 focus-within:ring-2 focus-within:ring-[#2B3F43] focus-within:border-transparent transition">
-              <Mail className="ml-3 text-gray-400" size={20} />
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={changeHandler}
-                required
-                className="flex-1 h-full bg-transparent outline-none px-3 text-base"
-                placeholder="emailaddres@gmail.com"
-              />
+        <form onSubmit={submitHandler} className="p-8 space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-sm font-semibold text-gray-900 ml-1">Email Address</label>
+              <div className="relative flex items-center">
+                <Mail className="absolute left-4 text-gray-400" size={18} />
+                <input type="email" name="email" value={form.email} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="admin@studiesforge.com" />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="block text-sm font-semibold text-gray-900 ml-1">Password</label>
+              <div className="relative flex items-center">
+                <Lock className="absolute left-4 text-gray-400" size={18} />
+                <input type="password" name="password" value={form.password} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="••••••••" />
+              </div>
             </div>
           </div>
-
-          {/* Password Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Password
-            </label>
-            <div className="flex items-center h-12 border border-gray-300 rounded-xl bg-gray-50 focus-within:ring-2 focus-within:ring-[#2B3F43] focus-within:border-transparent transition">
-              <Lock className="ml-3 text-gray-400" size={20} />
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={changeHandler}
-                required
-                className="flex-1 h-full bg-transparent outline-none px-3 text-base"
-                placeholder="••••••••"
-              />
-            </div>
-          </div>
-
-          <div className="text-right">
-            <button
-              type="button"
-              onClick={() => router.push("/admin/user/password/forgot")}
-              className="text-sm font-medium text-[#2B3F43] hover:underline"
-            >
-              Forgot Password?
-            </button>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full h-12 rounded-xl bg-[#2B3F43] text-white font-semibold hover:bg-[#203033] transition disabled:opacity-70 active:scale-[0.98]"
-          >
-            {loading ? "Signing In..." : "Login"}
+          <button type="button" onClick={() => router.push("/admin/user/password/forgot")} className="block w-full text-sm font-semibold text-[#2B3F43] hover:underline">Forgot password?</button>
+          <button type="submit" disabled={loading} className="w-full h-14 rounded-2xl bg-[#2B3F43] text-white font-bold text-lg hover:bg-[#1e2d30] transition-all disabled:opacity-70 flex items-center justify-center gap-2">
+            {loading ? "Authenticating..." : "Login"}
+            {!loading && <ArrowRight size={20} />}
           </button>
         </form>
-
-        <div className="bg-gray-50 border-t px-8 py-4 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} StudiesForge
-        </div>
+        <div className="pb-6 text-center text-xs text-gray-400">© {new Date().getFullYear()} StudiesForge — Secure Portal</div>
       </div>
     </div>
   );
 };
-
 export default Login;
