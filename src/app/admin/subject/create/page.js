@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, UploadCloud } from "lucide-react";
 
 const Create = () => {
   const fileRef = useRef(null);
@@ -42,53 +42,59 @@ const Create = () => {
         if (fileRef.current) fileRef.current.value = "";
       }
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Failed to create subject");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 px-4 py-8">
-      <div className="mx-auto max-w-6xl">
+    <div className="min-h-screen bg-gray-50 px-4 py-8">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-[#2B3F43]">Create Subject</h1>
+          <h1 className="text-3xl font-bold text-[#2B3F43] sm:text-4xl">Create Subject</h1>
           <p className="mt-2 text-gray-600">Add a new subject to your MDCAT website.</p>
         </div>
-        <form onSubmit={createSubject} className="w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl">
+
+        <form onSubmit={createSubject} className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl">
           <div className="bg-[#2B3F43] px-8 py-6">
-            <h2 className="text-2xl font-semibold text-white">Subject Information</h2>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">Subject Information</h2>
           </div>
-          <div className="grid w-full gap-10 p-8 lg:grid-cols-2">
-            <div className="w-full">
+
+          <div className="flex flex-col gap-8 p-6 sm:p-8">
+            <div>
               <label className="mb-3 block font-semibold text-[#2B3F43]">Subject Image</label>
-              <div className="w-full overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-gray-50">
-                <div className="flex h-80 w-full items-center justify-center bg-gray-100">
-                  {preview ? (
-                    <img src={preview} alt="Preview" className="h-full w-full object-cover" />
-                  ) : (
-                    <span className="text-lg text-gray-900">No Image Selected</span>
-                  )}
-                </div>
-                <div className="border-t p-5">
-                  <input ref={fileRef} type="file" name="image" accept="image/*" onChange={changeData} className="w-full rounded-xl border border-gray-300 bg-white p-3 file:mr-4 file:rounded-lg file:border-0 file:bg-[#2B3F43] file:px-5 file:py-2 file:text-white file:cursor-pointer" />
-                </div>
+              <div 
+                onClick={() => fileRef.current?.click()}
+                className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 transition hover:border-[#2B3F43] hover:bg-gray-100"
+              >
+                {preview ? (
+                  <img src={preview} alt="Preview" className="h-full w-full rounded-2xl object-cover" />
+                ) : (
+                  <div className="flex flex-col items-center text-gray-400">
+                    <UploadCloud size={48} className="mb-2" />
+                    <span className="font-medium">Click to upload image</span>
+                  </div>
+                )}
+                <input ref={fileRef} type="file" name="image" accept="image/*" onChange={changeData} className="hidden" />
               </div>
             </div>
-            <div className="flex w-full flex-col space-y-6">
+
+            <div className="space-y-6">
               <div>
                 <label className="mb-2 block font-semibold text-[#2B3F43]">Subject Title</label>
-                <input type="text" name="title" value={data.title} onChange={changeData} placeholder="Enter subject title..." className="w-full rounded-xl text-gray-900 border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
+                <input type="text" name="title" value={data.title} onChange={changeData} placeholder="Enter subject title..." className="w-full rounded-xl border border-gray-300 p-4 text-gray-900 outline-none transition focus:border-[#2B3F43]" />
               </div>
-              <div className="flex-grow">
+              <div>
                 <label className="mb-2 block font-semibold text-[#2B3F43]">Description</label>
-                <textarea name="description" value={data.description} onChange={changeData} rows={9} placeholder="Enter subject description..." className="w-full resize-none rounded-xl text-gray-900 border border-gray-300 p-4 outline-none transition focus:border-[#2B3F43]" />
+                <textarea name="description" value={data.description} onChange={changeData} rows={6} placeholder="Enter subject description..." className="w-full resize-none rounded-xl border border-gray-300 p-4 text-gray-900 outline-none transition focus:border-[#2B3F43]" />
               </div>
-              <div className="flex justify-end pt-4">
-                <button type="submit" disabled={loading} className="flex items-center gap-2 rounded-xl bg-[#2B3F43] px-8 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50">
-                  {loading ? <Loader2 className="animate-spin" size={20} /> : "Create Subject"}
-                </button>
-              </div>
+            </div>
+
+            <div className="flex justify-end mt-1">
+              <button type="submit" disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2B3F43] px-8 py-4 font-semibold text-white transition hover:opacity-90 disabled:opacity-50 sm:w-auto">
+                {loading ? <Loader2 className="animate-spin" size={20} /> : "Create Subject"}
+              </button>
             </div>
           </div>
         </form>
