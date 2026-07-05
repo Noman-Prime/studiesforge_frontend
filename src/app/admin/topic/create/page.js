@@ -15,20 +15,19 @@ const Create = () => {
     const [imagePreview, setImagePreview] = useState("");
     const [video, setVideo] = useState(null);
     const [videoPreview, setVideoPreview] = useState("");
-    const getSubjects = async () => {
-    try {
-        const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`,
-            { withCredentials: true }
-        );
+    const getSSubjects = async () => {
+        try {
+            const result = await axios.get(
+                `${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`,
+                { withCredentials: true }
+            );
 
-        setSubjects(res.data.subject || []);
-    } catch (error) {
-        console.log(error);
-        setSubjects([]);
-        toast.error(error.response?.data?.message || "Failed to fetch subjects");
-    }
-};
+            setSubjects(result.data.subject)
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response?.data?.message);
+        }
+    };
     const getChapter = async (id) => {
         try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/mdcat/chapter/subject/${id}`, { withCredentials: true });
