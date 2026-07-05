@@ -16,14 +16,22 @@ const Create = () => {
     const [video, setVideo] = useState(null);
     const [videoPreview, setVideoPreview] = useState("");
     const getSubjects = async () => {
-        try {
-            const res = await axios.get("http://localhost:5000/api/v1/subject/all", { withCredentials: true });
-            setSubjects(res.data.subject);
-        } catch (e) { toast.error("Failed to fetch subjects"); }
-    };
+    try {
+        const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`,
+            { withCredentials: true }
+        );
+
+        setSubjects(res.data.subject || []);
+    } catch (error) {
+        console.log(error);
+        setSubjects([]);
+        toast.error(error.response?.data?.message || "Failed to fetch subjects");
+    }
+};
     const getChapter = async (id) => {
         try {
-            const res = await axios.get(`http://localhost:5000/mdcat/chapter/subject/${id}`, { withCredentials: true });
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/mdcat/chapter/subject/${id}`, { withCredentials: true });
             setChapters(res.data.chapter);
         } catch (e) { toast.error("Failed to fetch chapters"); }
     };
