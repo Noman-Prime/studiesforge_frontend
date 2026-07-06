@@ -73,12 +73,21 @@ const Topic = () => {
                                 <div className="flex flex-col flex-grow p-6">
                                     <h2 className="text-lg font-bold text-zinc-900 mb-2 line-clamp-1">{t.title}</h2>
                                     <p className="text-sm text-zinc-600 mb-6 flex-grow line-clamp-2">{t.description}</p>
-                                    <div className="flex gap-2">
-                                        <Link href={`/admin/topic/view/${t._id}`} className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-zinc-100 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200 transition">
-                                            <Eye size={16} /> View
+                                    <div className="grid grid-cols-3 gap-2 mt-auto">
+                                        <Link
+                                            href={`/admin/topic/view/${t._id}`}
+                                            className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white py-2.5 text-sm font-semibold transition-all"
+                                        >
+                                            <Eye size={16} />
+                                            <span className="hidden sm:inline">View</span>
                                         </Link>
-                                        <button onClick={() => deleteTopic(t._id)} className="flex items-center justify-center px-4 rounded-lg border border-red-100 text-red-600 hover:bg-red-50 transition">
+
+                                        <button
+                                            onClick={() => deleteTopic(t._id)}
+                                            className="flex items-center justify-center gap-2 rounded-xl bg-red-600 hover:bg-red-700 text-white py-2.5 text-sm font-semibold transition-all"
+                                        >
                                             <Trash2 size={16} />
+                                            <span className="hidden sm:inline">Delete</span>
                                         </button>
                                     </div>
                                 </div>
