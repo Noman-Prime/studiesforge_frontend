@@ -45,11 +45,7 @@ const Footer = () => {
                         <div className="space-y-4 text-sm text-gray-300">
                             <div className="flex items-center gap-3">
                                 <Mail size={18} className="text-emerald-400" />
-                                <span>support@studiesforge.com</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Phone size={18} className="text-emerald-400" />
-                                <span>+92 302 735560</span>
+                                <span>studiesforge@gmail.com</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <MapPin size={18} className="text-emerald-400" />
