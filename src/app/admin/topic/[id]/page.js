@@ -74,7 +74,7 @@ const Topic = () => {
                                     <h2 className="text-lg font-bold text-zinc-900 mb-2 line-clamp-1">{t.title}</h2>
                                     <p className="text-sm text-zinc-600 mb-6 flex-grow line-clamp-2">{t.description}</p>
                                     <div className="flex gap-2">
-                                        <Link href={`/admin/topic/${id}/viewTopic/${t._id}`} className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-zinc-100 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200 transition">
+                                        <Link href={`/admin/topic/view/${t._id}`} className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-zinc-100 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200 transition">
                                             <Eye size={16} /> View
                                         </Link>
                                         <button onClick={() => deleteTopic(t._id)} className="flex items-center justify-center px-4 rounded-lg border border-red-100 text-red-600 hover:bg-red-50 transition">
