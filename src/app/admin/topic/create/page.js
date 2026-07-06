@@ -15,7 +15,7 @@ const Create = () => {
     const [imagePreview, setImagePreview] = useState("");
     const [video, setVideo] = useState(null);
     const [videoPreview, setVideoPreview] = useState("");
-    const getSSubjects = async () => {
+    const getSubjects = async () => {
         try {
             const result = await axios.get(
                 `${process.env.NEXT_PUBLIC_API}/api/v1/subject/all`,
