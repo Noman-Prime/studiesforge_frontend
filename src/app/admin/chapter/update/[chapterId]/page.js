@@ -15,7 +15,7 @@ const Update = () => {
     const getSubjects = async () => {
         try {
             const result = await axios.get(
-                "http://localhost:5000/api/v1/subject/all",
+                "${process.env.NEXT_PUBLIC_API}/api/v1/subject/all",
                 {
                     withCredentials: true,
                 }
@@ -30,7 +30,7 @@ const Update = () => {
     const getChapter = async () => {
         try {
             const result = await axios.get(
-                `http://localhost:5000/mdcat/chapter/get/${chapterId}`,
+                `${process.env.NEXT_PUBLIC_API}/mdcat/chapter/get/${chapterId}`,
                 {
                     withCredentials: true,
                 }
@@ -51,7 +51,7 @@ const Update = () => {
 
         try {
             const result = await axios.put(
-                `http://localhost:5000/mdcat/chapter/update/${chapterId}`,
+                `${process.env.NEXT_PUBLIC_API}/mdcat/chapter/update/${chapterId}`,
                 {
                     subject: subjectId,
                     number,

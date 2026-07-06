@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/user/password/reset/request",
+        `${process.env.NEXT_PUBLIC_API}/api/v1/user/password/reset/request`,
         { email }
       );
       toast.success(data.message || "Reset link sent to your email");

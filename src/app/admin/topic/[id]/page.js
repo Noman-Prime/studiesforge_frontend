@@ -19,7 +19,7 @@ const Topic = () => {
     };
     const fetchTopics = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/v1/topic/chapter/${id}`, { withCredentials: true });
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/topic/chapter/${id}`, { withCredentials: true });
             setTopics(res.data.topic || []);
         } catch (e) {
             toast.error("Failed to fetch topics");
@@ -27,7 +27,7 @@ const Topic = () => {
     };
     const deleteTopic = async (tid) => {
         try {
-            const res = await axios.delete(`http://localhost:5000/api/v1/topic/delete/${tid}`, { withCredentials: true });
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API}/api/v1/topic/delete/${tid}`, { withCredentials: true });
             toast.success(res.data.message);
             fetchTopics();
         } catch (e) {

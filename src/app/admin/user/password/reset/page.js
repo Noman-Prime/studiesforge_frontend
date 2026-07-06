@@ -24,7 +24,7 @@ const PasswordReset = () => {
       setLoading(true);
       const token = window.location.pathname.split("/").pop();
       const { data } = await axios.post(
-        `http://localhost:5000/api/user/reset-password/${token}`,
+        `${process.env.NEXT_PUBLIC_API}/api/user/reset-password/${token}`,
         { password: form.password }
       );
       toast.success(data.message || "Password reset successfully");
