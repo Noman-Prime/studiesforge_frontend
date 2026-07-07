@@ -7,35 +7,36 @@ import Link from "next/link";
 
 const SubjectDetail = ({ params }) => {
     const { id } = use(params);
+    console.log(id);
+
     const [subject, setSubject] = useState(null);
     const [topics, setTopics] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    const fetchData = async () => {
-        setLoading(true);
+    const getsubject = async () => {
         try {
-            const [subjectRes, topicRes] = await Promise.all([
-                axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/subject/get/${id}`),
-                axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/topic/subject/${id}`)
-            ]);
-            setSubject(subjectRes.data.subject);
-            setTopics(topicRes.data.topic || []);
+            const resp = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/subject/get/${id}`)
+            if (resp.data.subject) {
+                setSubject(resp.data.subject)
+                getTopics()
+            }
         } catch (error) {
-            console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
+            console.log(error);
         }
-    };
+    }
+    const getTopics = async () => {
+        try {
+            const resp = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/topic/subject/${id}`)
+            if (resp.data.topic) {
+                setTopics(resp.data.topic)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
-        if (id) fetchData();
-    }, [id]);
-
-    if (loading) return (
-        <div className="flex min-h-[60vh] items-center justify-center">
-            <Loader2 className="h-10 w-10 animate-spin text-[#2B3F43]" />
-        </div>
-    );
+        getsubject()
+    },[]);
 
     return (
         <div className="mx-auto max-w-6xl px-6 py-12">

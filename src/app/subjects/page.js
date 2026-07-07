@@ -35,7 +35,6 @@ const Subjects = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-12">
-      {/* Page Header */}
       <div className="mb-12 text-center">
         <h1 className="text-4xl font-extrabold text-[#2B3F43] sm:text-5xl">
           Browse Subjects
