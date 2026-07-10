@@ -4,24 +4,43 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { ShieldCheck, Mail, Lock, ArrowRight } from "lucide-react";
+import { useAuth } from "@/app/context/auth";
+
 const Login = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
-  const changeHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const { setUser } = useAuth();
+
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const changeHandler = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
+
     try {
-      setLoading(true);
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/api/v1/user/login`, form, { withCredentials: true });
-      if (data.success) {
+      const resp = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/v1/user/login`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (resp.data.success) {
+        setUser(resp.data.user);
         toast.success("Welcome to StudiesForge");
         router.push("/admin");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed.");
-    } finally {
-      setLoading(false);
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
   return (
@@ -40,22 +59,25 @@ const Login = () => {
               <label className="block text-sm font-semibold text-gray-900 ml-1">Email Address</label>
               <div className="relative flex items-center">
                 <Mail className="absolute left-4 text-gray-400" size={18} />
-                <input type="email" name="email" value={form.email} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="admin@studiesforge.com" />
+                <input type="email" name="email" value={data.email} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="admin@studiesforge.com" />
               </div>
             </div>
             <div className="space-y-1.5">
               <label className="block text-sm font-semibold text-gray-900 ml-1">Password</label>
               <div className="relative flex items-center">
                 <Lock className="absolute left-4 text-gray-400" size={18} />
-                <input type="password" name="password" value={form.password} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="••••••••" />
+                <input type="password" name="password" value={data.password} onChange={changeHandler} required className="w-full h-14 pl-12 pr-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-[#2B3F43]/20 focus:border-[#2B3F43] outline-none transition-all" placeholder="••••••••" />
               </div>
             </div>
           </div>
-          <button type="button" onClick={() => router.push("/admin/user/password/forgot")} className="block w-full text-sm font-semibold text-[#2B3F43] hover:underline">Forgot password?</button>
-          <button type="submit" disabled={loading} className="w-full h-14 rounded-2xl bg-[#2B3F43] text-white font-bold text-lg hover:bg-[#1e2d30] transition-all disabled:opacity-70 flex items-center justify-center gap-2">
-            {loading ? "Authenticating..." : "Login"}
-            {!loading && <ArrowRight size={20} />}
+          <button
+            type="submit"
+            className="w-full h-14 rounded-2xl bg-[#2B3F43] text-white font-bold text-lg hover:bg-[#1e2d30] transition-all flex items-center justify-center gap-2"
+          >
+            Login
+            <ArrowRight size={20} />
           </button>
+          <button type="button" onClick={() => router.push("/admin/user/password/forgot")} className="block w-full text-sm font-semibold text-[#2B3F43] hover:underline">Forgot password?</button>
         </form>
         <div className="pb-6 text-center text-xs text-gray-400">© {new Date().getFullYear()} StudiesForge — Secure Portal</div>
       </div>

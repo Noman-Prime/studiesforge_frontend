@@ -7,7 +7,6 @@ import Link from "next/link";
 
 const SubjectDetail = ({ params }) => {
     const { id } = use(params);
-    console.log(id);
 
     const [subject, setSubject] = useState(null);
     const [topics, setTopics] = useState([]);
