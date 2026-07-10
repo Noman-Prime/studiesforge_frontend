@@ -7,26 +7,24 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     const checkLogin = async () => {
         try {
-            const { data } = await axios.get(
+            const res = await axios.get(
                 `${process.env.NEXT_PUBLIC_API}/api/v1/user/me`,
                 {
                     withCredentials: true,
                 }
             );
 
-            if (data.success) {
-                setUser(data.user);
+            if (res.data.success) {
+                setUser(res.data.user);
             } else {
-                setUser(null);
+                checkLogin();
             }
+
         } catch (error) {
             setUser(null);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -39,7 +37,6 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 setUser,
-                loading,
                 checkLogin,
             }}
         >
