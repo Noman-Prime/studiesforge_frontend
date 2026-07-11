@@ -36,10 +36,18 @@ const Login = () => {
       );
 
       if (resp.data.success) {
-        setUser(resp.data.user)
+        const me = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/v1/user/me`,
+          {
+            withCredentials: true,
+          }
+        );
 
-        toast.success("Welcome to StudiesForge");
-        router.push("/admin");
+        if (me.data.success) {
+          setUser(me.data.user);
+          toast.success("Welcome to StudiesForge");
+          router.push("/admin");
+        }
       }
 
     } catch (error) {

@@ -1,5 +1,5 @@
 "use client";
-// test deployment
+
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const checkLogin = async () => {
         try {
@@ -20,11 +21,14 @@ export const AuthProvider = ({ children }) => {
             if (res.data.success) {
                 setUser(res.data.user);
             } else {
-                checkLogin();
+                setUser(null);
             }
 
         } catch (error) {
             setUser(null);
+
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -37,6 +41,7 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 setUser,
+                loading,
                 checkLogin,
             }}
         >
