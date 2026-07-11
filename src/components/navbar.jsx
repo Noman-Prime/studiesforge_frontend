@@ -18,11 +18,16 @@ const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
+            // ALWAYS use the full API URL from your environment variables
             const { data } = await axios.post(
                 `${process.env.NEXT_PUBLIC_API}/api/v1/user/logout`,
                 {},
                 {
                     withCredentials: true,
+                    // Adding this ensures the request header is correct
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 }
             );
 
@@ -32,8 +37,8 @@ const Navbar = () => {
                 setShow(false);
                 toast.success("Logout successful");
             }
-
         } catch (error) {
+            // Displaying the error as a toast as per your requirement
             toast.error(error.response?.data?.message || "Logout failed");
         }
     };
