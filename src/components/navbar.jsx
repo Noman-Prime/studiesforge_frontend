@@ -94,7 +94,7 @@ const Navbar = () => {
                                 <img
                                     src={user.image?.url || "/default-avatar.png"}
                                     alt="Admin"
-                                    className="h-10 w-10 rounded-full object-cover border border-white/20"
+                                    className="h-10 w-10 rounded-full border border-white/20 object-cover"
                                 />
                             </button>
 
@@ -136,63 +136,103 @@ const Navbar = () => {
                     )}
 
                 </div>
+                <div className="flex items-center gap-4 md:hidden">
+
+                    <div ref={navRef} className="relative">
+
+                        <button
+                            type="button"
+                            onClick={() => setShow(!show)}
+                            className="flex items-center text-white p-1"
+                        >
+                            {show ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+
+                        {show && (
+                            <div className="absolute right-0 top-10 w-48 animate-in fade-in zoom-in-95 flex flex-col gap-2 rounded-2xl border border-white/10 bg-[#2B3F43] p-4 shadow-2xl">
+
+                                <Link
+                                    href="/"
+                                    onClick={() => setShow(false)}
+                                    className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
+                                >
+                                    Home
+                                </Link>
+
+                                <Link
+                                    href="/subjects"
+                                    onClick={() => setShow(false)}
+                                    className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
+                                >
+                                    Subjects
+                                </Link>
+
+                            </div>
+                        )}
+
+                    </div>
 
 
-                <div ref={navRef} className="md:hidden">
+                    {user && (
+                        <div ref={profileRef} className="relative">
 
-                    <button
-                        type="button"
-                        onClick={() => setShow(!show)}
-                        className="flex items-center text-white p-1"
-                    >
-                        {show ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-
-
-                    {show && (
-                        <div className="absolute right-6 top-[72px] w-48 animate-in fade-in zoom-in-95 flex flex-col gap-2 rounded-2xl border border-white/10 bg-[#2B3F43] p-4 shadow-2xl">
-
-                            <Link
-                                href="/"
-                                onClick={() => setShow(false)}
-                                className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
+                            <button
+                                type="button"
+                                onClick={() => setProfileShow(!profileShow)}
+                                className="flex items-center"
                             >
-                                Home
-                            </Link>
+                                <img
+                                    src={user.image?.url || "/default-avatar.png"}
+                                    alt="Admin"
+                                    className="h-10 w-10 rounded-full border border-white/20 object-cover"
+                                />
+                            </button>
 
-                            <Link
-                                href="/subjects"
-                                onClick={() => setShow(false)}
-                                className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
-                            >
-                                Subjects
-                            </Link>
 
-                            {user && (
-                                <>
+                            {profileShow && (
+                                <div className="absolute right-0 top-14 w-60 rounded-2xl border border-white/10 bg-[#2B3F43] p-3 shadow-2xl">
+
+                                    <div className="flex items-center gap-3 border-b border-white/10 px-3 py-3">
+
+                                        <div className="min-w-0">
+                                            <p className="truncate text-sm font-semibold text-white">
+                                                {user.firstName} {user.lastName}
+                                            </p>
+
+                                            <p className="truncate text-xs text-gray-300">
+                                                {user.email}
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+
                                     <Link
                                         href="/admin"
-                                        onClick={() => setShow(false)}
-                                        className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
+                                        onClick={() => setProfileShow(false)}
+                                        className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
+                                        <User size={16} />
                                         My Account
                                     </Link>
+
 
                                     <button
                                         type="button"
                                         onClick={logoutHandler}
-                                        className="rounded-lg px-4 py-2 text-center text-sm font-medium text-white hover:bg-white/10"
+                                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
+                                        <LogOut size={16} />
                                         Logout
                                     </button>
-                                </>
+
+                                </div>
                             )}
 
                         </div>
                     )}
 
                 </div>
-
             </div>
         </nav>
     );
