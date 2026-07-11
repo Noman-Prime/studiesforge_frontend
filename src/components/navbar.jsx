@@ -12,7 +12,8 @@ const Navbar = () => {
     const [profileShow, setProfileShow] = useState(false);
 
     const navRef = useRef(null);
-    const profileRef = useRef(null);
+    const desktopProfileRef = useRef(null);
+    const mobileProfileRef = useRef(null);
 
     const { user, setUser } = useAuth();
 
@@ -23,7 +24,9 @@ const Navbar = () => {
                 {},
                 {
                     withCredentials: true,
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 }
             );
 
@@ -40,21 +43,34 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
-            if (profileRef.current && !profileRef.current.contains(event.target)) {
+            if (
+                desktopProfileRef.current &&
+                !desktopProfileRef.current.contains(event.target) &&
+                mobileProfileRef.current &&
+                !mobileProfileRef.current.contains(event.target)
+            ) {
                 setProfileShow(false);
             }
-            if (navRef.current && !navRef.current.contains(event.target)) {
+
+            if (
+                navRef.current &&
+                !navRef.current.contains(event.target)
+            ) {
                 setShow(false);
             }
         };
 
         document.addEventListener("mousedown", handleOutsideClick);
-        return () => document.removeEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
     }, []);
 
     return (
         <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#2B3F43] px-6 py-4 shadow-sm">
             <div className="mx-auto flex max-w-7xl items-center justify-between">
+
                 <Link
                     href="/"
                     className="text-xl font-bold tracking-tight text-white transition hover:opacity-80"
@@ -62,13 +78,25 @@ const Navbar = () => {
                     StudiesForge
                 </Link>
 
-                {/* Desktop Navigation */}
                 <div className="hidden items-center gap-8 md:flex">
-                    <Link href="/" className="text-sm font-medium text-gray-200 hover:text-white">Home</Link>
-                    <Link href="/subjects" className="text-sm font-medium text-gray-200 hover:text-white">Subjects</Link>
+
+                    <Link
+                        href="/"
+                        className="text-sm font-medium text-gray-200 hover:text-white"
+                    >
+                        Home
+                    </Link>
+
+                    <Link
+                        href="/subjects"
+                        className="text-sm font-medium text-gray-200 hover:text-white"
+                    >
+                        Subjects
+                    </Link>
 
                     {user && (
-                        <div ref={profileRef} className="relative">
+                        <div ref={desktopProfileRef} className="relative">
+
                             <button
                                 type="button"
                                 onClick={() => setProfileShow(!profileShow)}
@@ -82,54 +110,91 @@ const Navbar = () => {
                             </button>
 
                             {profileShow && (
-                                <div className="absolute right-0 top-14 w-52 rounded-2xl border border-white/10 bg-[#2B3F43] p-3 shadow-2xl z-[60]">
-                                    <div className="border-b border-white/10 px-3 py-2 mb-2">
-                                        <p className="text-sm font-semibold text-white">{user.firstName} {user.lastName}</p>
-                                        <p className="text-xs text-gray-300">{user.email}</p>
+                                <div className="absolute right-0 top-14 z-[60] w-52 rounded-2xl border border-white/10 bg-[#2B3F43] p-3 shadow-2xl">
+
+                                    <div className="mb-2 border-b border-white/10 px-3 py-2">
+                                        <p className="text-sm font-semibold text-white">
+                                            {user.firstName} {user.lastName}
+                                        </p>
+
+                                        <p className="text-xs text-gray-300">
+                                            {user.email}
+                                        </p>
                                     </div>
+
                                     <Link
                                         href="/admin"
-                                        onClick={(e) => { e.stopPropagation(); setProfileShow(false); }}
+                                        onClick={() => setProfileShow(false)}
                                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
-                                        <LayoutDashboard size={16} /> Dashboard
+                                        <LayoutDashboard size={16} />
+                                        Dashboard
                                     </Link>
+
                                     <Link
                                         href="/admin/profile"
-                                        onClick={(e) => { e.stopPropagation(); setProfileShow(false); }}
+                                        onClick={() => setProfileShow(false)}
                                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
-                                        <User size={16} /> My Account
+                                        <User size={16} />
+                                        My Account
                                     </Link>
-                                    <button onClick={logoutHandler} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10">
-                                        <LogOut size={16} /> Logout
+
+                                    <button
+                                        onClick={logoutHandler}
+                                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
+                                    >
+                                        <LogOut size={16} />
+                                        Logout
                                     </button>
+
                                 </div>
                             )}
+
                         </div>
                     )}
+
                 </div>
 
-                {/* Mobile Navigation */}
                 <div className="flex items-center gap-4 md:hidden">
+
                     <div ref={navRef} className="relative">
+
                         <button
                             type="button"
                             onClick={() => setShow(!show)}
-                            className="flex items-center text-white p-1"
+                            className="flex items-center p-1 text-white"
                         >
                             {show ? <X size={24} /> : <Menu size={24} />}
                         </button>
+
                         {show && (
-                            <div className="absolute right-0 top-10 w-48 flex flex-col gap-2 rounded-2xl border border-white/10 bg-[#2B3F43] p-4 shadow-2xl z-[60]">
-                                <Link href="/" onClick={() => setShow(false)} className="px-4 py-2 text-sm text-white hover:bg-white/10 rounded-lg">Home</Link>
-                                <Link href="/subjects" onClick={() => setShow(false)} className="px-4 py-2 text-sm text-white hover:bg-white/10 rounded-lg">Subjects</Link>
+                            <div className="absolute right-0 top-10 z-[60] flex w-48 flex-col gap-2 rounded-2xl border border-white/10 bg-[#2B3F43] p-4 shadow-2xl">
+
+                                <Link
+                                    href="/"
+                                    onClick={() => setShow(false)}
+                                    className="rounded-lg px-4 py-2 text-sm text-white hover:bg-white/10"
+                                >
+                                    Home
+                                </Link>
+
+                                <Link
+                                    href="/subjects"
+                                    onClick={() => setShow(false)}
+                                    className="rounded-lg px-4 py-2 text-sm text-white hover:bg-white/10"
+                                >
+                                    Subjects
+                                </Link>
+
                             </div>
                         )}
+
                     </div>
 
                     {user && (
-                        <div ref={profileRef} className="relative">
+                        <div ref={mobileProfileRef} className="relative">
+
                             <button
                                 type="button"
                                 onClick={() => setProfileShow(!profileShow)}
@@ -143,33 +208,52 @@ const Navbar = () => {
                             </button>
 
                             {profileShow && (
-                                <div className="absolute right-0 top-14 w-60 rounded-2xl border border-white/10 bg-[#2B3F43] p-3 shadow-2xl z-[60]">
-                                    <div className="px-3 py-3 border-b border-white/10">
-                                        <p className="text-sm font-semibold text-white">{user.firstName} {user.lastName}</p>
-                                        <p className="text-xs text-gray-300">{user.email}</p>
+                                <div className="absolute right-0 top-14 z-[60] w-60 rounded-2xl border border-white/10 bg-[#2B3F43] p-3 shadow-2xl">
+
+                                    <div className="border-b border-white/10 px-3 py-3">
+                                        <p className="text-sm font-semibold text-white">
+                                            {user.firstName} {user.lastName}
+                                        </p>
+
+                                        <p className="text-xs text-gray-300">
+                                            {user.email}
+                                        </p>
                                     </div>
+
                                     <Link
                                         href="/admin"
-                                        onClick={(e) => { e.stopPropagation(); setProfileShow(false); }}
+                                        onClick={() => setProfileShow(false)}
                                         className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
-                                        <LayoutDashboard size={16} /> Dashboard
+                                        <LayoutDashboard size={16} />
+                                        Dashboard
                                     </Link>
+
                                     <Link
                                         href="/admin/profile"
-                                        onClick={(e) => { e.stopPropagation(); setProfileShow(false); }}
+                                        onClick={() => setProfileShow(false)}
                                         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
                                     >
-                                        <User size={16} /> My Account
+                                        <User size={16} />
+                                        My Account
                                     </Link>
-                                    <button onClick={logoutHandler} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10">
-                                        <LogOut size={16} /> Logout
+
+                                    <button
+                                        onClick={logoutHandler}
+                                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white hover:bg-white/10"
+                                    >
+                                        <LogOut size={16} />
+                                        Logout
                                     </button>
+
                                 </div>
                             )}
+
                         </div>
                     )}
+
                 </div>
+
             </div>
         </nav>
     );
