@@ -76,28 +76,32 @@ const Slider = () => {
   if (sliders.length === 0) return null;
 
 
+
   return (
 
-    <section className="bg-gradient-to-br from-[#eef5f6] via-[#f8fafc] to-white px-6 lg:px-16 py-5">
+    <section className="bg-gradient-to-br from-[#eef5f6] via-[#f8fafc] to-white px-4 py-5 lg:px-16">
 
 
-      <div className="max-w-[1500px] mx-auto">
+      <div className="mx-auto max-w-[1500px]">
 
 
-        <div className="grid lg:grid-cols-10 gap-8 items-center">
+        <div className="grid grid-cols-10 items-center gap-3 md:gap-8">
 
 
-          <div className="lg:col-span-3">
+
+          <div className="col-span-3">
 
 
-            <div className="inline-flex px-4 py-2 rounded-full bg-[#2B3F43]/15 text-[#2B3F43] text-sm font-semibold">
+            <div className="inline-flex rounded-full bg-[#2B3F43]/15 px-3 py-1 text-[10px] font-semibold text-[#2B3F43] md:px-4 md:py-2 md:text-sm">
 
               COMPLETE LEARNING PLATFORM
 
             </div>
 
 
-            <h1 className="mt-6 text-5xl font-bold leading-tight text-[#24383c]">
+
+            <h1 className="mt-4 text-2xl font-bold leading-tight text-[#24383c] md:mt-6 md:text-5xl">
+
 
               Your Journey
               <br />
@@ -108,10 +112,12 @@ const Slider = () => {
                 Success Starts Here
               </span>
 
+
             </h1>
 
 
-            <p className="mt-6 text-lg text-[#53666a] leading-relaxed">
+
+            <p className="mt-4 text-xs leading-relaxed text-[#53666a] md:mt-6 md:text-lg">
 
               Prepare smarter with organized study material,
               structured learning and exam-focused practice.
@@ -124,21 +130,24 @@ const Slider = () => {
 
 
 
-          <div className="lg:col-span-7">
+
+          <div className="col-span-7">
 
 
-            <div className="relative h-[520px] w-full overflow-hidden rounded-[32px] shadow-[0_25px_60px_rgba(43,63,67,0.25)]">
+            <div className="relative h-[280px] w-full overflow-hidden rounded-2xl shadow-[0_25px_60px_rgba(43,63,67,0.25)] md:h-[520px] md:rounded-[32px]">
 
 
               {sliders.map((slider, index) => (
 
+
                 <div
                   key={slider._id}
                   className={`absolute inset-0 transition-opacity duration-700 ${index === position
-                    ? "opacity-100"
-                    : "opacity-0"
+                      ? "opacity-100"
+                      : "opacity-0"
                     }`}
                 >
+
 
                   <img
                     src={slider.image?.url}
@@ -147,23 +156,29 @@ const Slider = () => {
                   />
 
 
+
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
 
-                  <div className="absolute bottom-8 left-8 right-8">
 
-                    <p className="rounded-2xl bg-white/10 px-6 py-4 text-lg font-medium text-white backdrop-blur-md border border-white/20">
+                  <div className="absolute bottom-5 left-5 right-5 md:bottom-8 md:left-8 md:right-8">
+
+
+                    <p className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-medium text-white backdrop-blur-md md:px-6 md:py-4 md:text-lg">
 
                       {slider.description}
 
                     </p>
+
 
                   </div>
 
 
                 </div>
 
+
               ))}
+
 
 
 
@@ -171,6 +186,7 @@ const Slider = () => {
               {sliders.length > 1 && (
 
                 <>
+
 
                   <button
                     onClick={() =>
@@ -180,10 +196,10 @@ const Slider = () => {
                           : p - 1
                       )
                     }
-                    className="absolute left-5 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-3 text-white backdrop-blur hover:bg-black/50"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white backdrop-blur md:left-5 md:p-3"
                   >
 
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={18} />
 
                   </button>
 
@@ -197,10 +213,10 @@ const Slider = () => {
                           : p + 1
                       )
                     }
-                    className="absolute right-5 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-3 text-white backdrop-blur hover:bg-black/50"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white backdrop-blur md:right-5 md:p-3"
                   >
 
-                    <ChevronRight size={24} />
+                    <ChevronRight size={18} />
 
                   </button>
 
@@ -221,39 +237,47 @@ const Slider = () => {
 
 
 
-        <div className="mt-8 flex flex-wrap gap-4">
+
+        <div className="mt-6 flex flex-nowrap gap-2 overflow-x-auto pb-2 md:mt-8 md:gap-4">
 
 
-          <div className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 shadow-[0_8px_25px_rgba(43,63,67,0.12)] border border-gray-200 text-[#2B3F43] font-medium">
+          <div className="flex shrink-0 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-[#2B3F43] shadow-[0_8px_25px_rgba(43,63,67,0.12)] md:px-5 md:py-3 md:text-base">
 
-            <Layers size={18} />
+            <Layers size={14} className="md:size-[18px]" />
+
             Topic Wise Learning
 
           </div>
 
 
 
-          <div className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 shadow-[0_8px_25px_rgba(43,63,67,0.12)] border border-gray-200 text-[#2B3F43] font-medium">
 
-            <BookOpen size={18} />
+          <div className="flex shrink-0 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-[#2B3F43] shadow-[0_8px_25px_rgba(43,63,67,0.12)] md:px-5 md:py-3 md:text-base">
+
+            <BookOpen size={14} className="md:size-[18px]" />
+
             Chapter Wise MCQs
 
           </div>
 
 
 
-          <div className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 shadow-[0_8px_25px_rgba(43,63,67,0.12)] border border-gray-200 text-[#2B3F43] font-medium">
 
-            <Video size={18} />
+          <div className="flex shrink-0 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-[#2B3F43] shadow-[0_8px_25px_rgba(43,63,67,0.12)] md:px-5 md:py-3 md:text-base">
+
+            <Video size={14} className="md:size-[18px]" />
+
             Video Lectures
 
           </div>
 
 
 
-          <div className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 shadow-[0_8px_25px_rgba(43,63,67,0.12)] border border-gray-200 text-[#2B3F43] font-medium">
 
-            <FileText size={18} />
+          <div className="flex shrink-0 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-[#2B3F43] shadow-[0_8px_25px_rgba(43,63,67,0.12)] md:px-5 md:py-3 md:text-base">
+
+            <FileText size={14} className="md:size-[18px]" />
+
             Study Notes
 
           </div>

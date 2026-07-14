@@ -19,7 +19,6 @@ const SubjectChapter = () => {
                 `${process.env.NEXT_PUBLIC_API}/mdcat/chapter/subject/${id}`,
                 {
                     withCredentials: true,
-                    headers: { "Cache-Control": "no-cache" },
                 }
             );
             setChapters(res.data.chapter || []);
