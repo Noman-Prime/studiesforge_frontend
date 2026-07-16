@@ -2,15 +2,15 @@
 
 import Slider from "@/components/slider";
 import Subjects from "@/components/subject";
-import SubjectsTopic from "@/components/subjectsTopic";
+import Chapters from "@/components/chapter";
 
 const Home = () => {
   return (
-    <div className="flex flex-col gap-12 pb-12">
+    <>
       <Slider />
       <Subjects />
-      <SubjectsTopic />
-    </div>
+      <Chapters />
+    </>
   );
 };
 

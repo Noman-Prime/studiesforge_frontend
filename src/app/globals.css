@@ -11,6 +11,14 @@
     --color-foreground: #ededed;
   }
 }
+
+html,
 body {
-  @apply bg-background text-foreground font-sans;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  @apply bg-background text-foreground font-sans antialiased;
 }

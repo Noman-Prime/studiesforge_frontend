@@ -2,7 +2,8 @@
 
 import axios from "axios";
 import { use, useEffect, useState } from "react";
-import { Loader2, FileText, Video, BookOpen } from "lucide-react";
+import { Loader2, BookOpen, Video, FileText, BrainCircuit, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const Topic = ({ params }) => {
     const { id } = use(params);
@@ -11,99 +12,81 @@ const Topic = ({ params }) => {
 
     const getTopic = async () => {
         try {
-            const { data } = await axios.get(
-                `${process.env.NEXT_PUBLIC_API}/api/v1/topic/get/${id}`,
-                { withCredentials: true }
-            );
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/v1/topic/get/${id}`, { withCredentials: true });
             if (data?.topic) setTopic(data.topic);
-        } catch (error) {
-            console.error("Error fetching topic:", error);
-        } finally {
-            setLoading(false);
-        }
+        } catch (error) { console.error(error); } finally { setLoading(false); }
     };
 
-    useEffect(() => {
-        if (id) getTopic();
-    }, [id]);
+    useEffect(() => { if (id) getTopic(); }, [id]);
 
     if (loading) return (
-        <div className="flex min-h-[60vh] items-center justify-center">
-            <Loader2 className="h-10 w-10 animate-spin text-[#2B3F43]" />
-        </div>
-    );
-
-    if (!topic) return (
-        <div className="py-20 text-center text-gray-500">
-            <h2 className="text-2xl font-semibold">Topic not found</h2>
+        <div className="flex h-screen items-center justify-center bg-[#f8fafc]">
+            <Loader2 className="h-12 w-12 animate-spin text-[#2B3F43]" />
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-white pb-20">
-            {/* Header Image */}
-            {topic?.image?.url && (
-                <div className="relative h-[300px] w-full lg:h-[450px]">
-                    <img
-                        src={topic.image.url}
-                        alt={topic.title}
-                        className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                </div>
-            )}
-
-            <div className="mx-auto max-w-4xl px-6 py-10">
-                <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-[#2B3F43] sm:text-5xl">
-                    {topic.title}
-                </h1>
-
-                {/* Description */}
-                <section className="mb-12">
-                    <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
-                        <BookOpen size={20} /> Overview
-                    </h2>
-                    <p className="whitespace-pre-line text-lg leading-relaxed text-gray-700">
-                        {topic.description || "No description available."}
-                    </p>
-                </section>
-
-                {/* Video Lecture */}
-                {topic?.video?.url && (
-                    <section className="mb-12">
-                        <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
-                            <Video size={20} /> Video Lecture
-                        </h2>
-                        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-black shadow-lg">
-                            <video controls className="w-full">
-                                <source src={topic.video.url} type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
+        <div className="min-h-screen bg-[#FDFBF7] py-12 px-4 sm:px-6">
+            <main className="mx-auto max-w-5xl">
+                
+                {/* Hero Section - The "Hook" */}
+                <header className="relative mb-20 overflow-hidden rounded-[2rem] bg-[#1e293b] text-white shadow-2xl">
+                    {topic?.image?.url && (
+                        <div className="absolute inset-0 opacity-40">
+                            <img src={topic.image.url} className="h-full w-full object-cover" alt="Cover" />
                         </div>
-                    </section>
-                )}
-
-                {/* Notes */}
-                <section className="mb-12">
-                    <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-900">
-                        <FileText size={20} /> Learning Notes
-                    </h2>
-                    {topic.notes ? (
-                        <div className="space-y-4">
-                            {topic.notes.split("\n").filter(i => i.trim()).map((item, idx) => (
-                                <div key={idx} className="flex gap-4 rounded-xl border border-gray-100 bg-gray-50 p-5">
-                                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2B3F43] text-sm font-bold text-white">
-                                        {idx + 1}
-                                    </span>
-                                    <p className="text-gray-700 leading-relaxed">{item}</p>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-gray-500 italic">No notes added yet.</p>
                     )}
-                </section>
-            </div>
+                    <div className="relative z-10 flex flex-col items-center px-8 py-20 text-center">
+                        <span className="mb-4 rounded-full bg-white/10 px-4 py-1 text-sm font-medium tracking-widest uppercase">Biology Module</span>
+                        <h1 className="mb-8 max-w-3xl text-5xl font-extrabold leading-tight sm:text-6xl">{topic?.title}</h1>
+                        <Link href={`/mcqs/${id}`} className="group flex items-center gap-2 rounded-full bg-[#E2E8F0] px-8 py-4 font-bold text-[#1e293b] transition-all hover:bg-white hover:scale-105">
+                            Start Practice <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
+                </header>
+
+                {/* Content Grid */}
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_300px]">
+                    
+                    {/* Main Reading Column */}
+                    <div className="space-y-16">
+                        <section className="bg-white p-8 sm:p-12 rounded-3xl border border-gray-100 shadow-sm">
+                            <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold text-[#1e293b]">
+                                <BookOpen className="text-[#2B3F43]" /> Overview
+                            </h2>
+                            <p className="font-serif text-xl leading-relaxed text-gray-700 text-justify">
+                                {topic?.description}
+                            </p>
+                        </section>
+
+                        {topic?.video?.url && (
+                            <section>
+                                <h2 className="mb-6 text-2xl font-bold text-[#1e293b]">Lecture Visual</h2>
+                                <div className="aspect-video w-full overflow-hidden rounded-3xl bg-black shadow-2xl ring-4 ring-white">
+                                    <video controls className="h-full w-full"><source src={topic.video.url} /></video>
+                                </div>
+                            </section>
+                        )}
+                    </div>
+
+                    {/* Sidebar - The "Sticky" Notes */}
+                    <aside className="space-y-8">
+                        <div className="sticky top-8 rounded-3xl bg-[#2B3F43] p-8 text-white shadow-xl">
+                            <h3 className="mb-6 flex items-center gap-2 text-xl font-bold">
+                                <FileText /> Quick Notes
+                            </h3>
+                            <div className="space-y-6">
+                                {topic?.notes?.split("\n").filter(i => i.trim()).map((note, idx) => (
+                                    <div key={idx} className="border-l-2 border-white/20 pl-4">
+                                        <p className="text-sm font-medium text-blue-100/70 mb-1">KEYPOINT {idx + 1}</p>
+                                        <p className="font-serif text-lg leading-snug">{note}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </main>
         </div>
     );
 };

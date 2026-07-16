@@ -29,24 +29,20 @@ const Subjects = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-br from-[#eef5f6] via-[#f8fafc] to-white px-6 lg:px-16 py-16">
+    <section className="bg-gradient-to-br from-[#eef5f6] via-[#f8fafc] to-white px-4 py-12 lg:px-16 lg:py-16">
 
-      <div className="max-w-[1500px] mx-auto">
-
-
-        <div className="mb-12">
-
-          <div className="inline-flex px-4 py-2 rounded-full bg-[#2B3F43]/10 text-[#2B3F43] text-sm font-semibold">
-            SUBJECT LIBRARY
-          </div>
+      <div className="mx-auto max-w-[1500px]">
 
 
-          <h2 className="mt-5 text-4xl lg:text-5xl font-bold text-[#2B3F43]">
+        <div className="mb-10">
+
+
+          <h2 className="text-3xl font-bold text-[#2B3F43] sm:text-4xl lg:text-5xl">
             Explore Your Subjects
           </h2>
 
 
-          <p className="mt-4 max-w-2xl text-lg text-gray-600">
+          <p className="mt-3 max-w-2xl text-sm text-gray-600 sm:text-lg">
             Start your MDCAT preparation with organized subject-wise learning,
             practice and study resources.
           </p>
@@ -67,7 +63,7 @@ const Subjects = () => {
         ) : (
 
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4 lg:gap-8">
 
 
             {subjects.map((subject) => (
@@ -75,12 +71,12 @@ const Subjects = () => {
 
               <Link
                 key={subject._id}
-                href={`/subjectDetail/${subject._id}`}
-                className="group overflow-hidden rounded-3xl bg-white/90 backdrop-blur border border-white shadow-[0_15px_40px_rgba(43,63,67,0.12)] transition-all duration-300 hover:-translate-y-3 hover:shadow-[0_25px_60px_rgba(43,63,67,0.2)]"
+                href={`/subjects/${subject._id}`}
+                className="group overflow-hidden rounded-2xl bg-white/90 backdrop-blur border border-white shadow-[0_15px_40px_rgba(43,63,67,0.12)] transition-all duration-300 hover:-translate-y-3 hover:shadow-[0_25px_60px_rgba(43,63,67,0.2)]"
               >
 
 
-                <div className="relative h-60 overflow-hidden">
+                <div className="relative h-36 overflow-hidden sm:h-48 lg:h-60">
 
 
                   <img
@@ -93,7 +89,7 @@ const Subjects = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
 
-                  <h3 className="absolute bottom-5 left-5 text-2xl font-bold text-white">
+                  <h3 className="absolute bottom-3 left-3 text-lg font-bold text-white sm:bottom-5 sm:left-5 sm:text-2xl">
                     {subject.title}
                   </h3>
 
@@ -102,21 +98,21 @@ const Subjects = () => {
 
 
 
-                <div className="p-6">
+                <div className="p-3 sm:p-6">
 
 
-                  <p className="text-sm text-gray-500">
+                  <p className="hidden text-sm text-gray-500 sm:block">
                     Complete subject preparation
                   </p>
 
 
-                  <div className="mt-4 flex items-center gap-2 text-[#2B3F43] font-semibold">
+                  <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-[#2B3F43] sm:mt-4 sm:gap-2 sm:text-base">
 
                     Start Learning
 
                     <ArrowRight
-                      size={18}
-                      className="transition-transform group-hover:translate-x-1"
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1 sm:h-[18px] sm:w-[18px]"
                     />
 
                   </div>
@@ -143,6 +139,5 @@ const Subjects = () => {
     </section>
   );
 };
-
 
 export default Subjects;

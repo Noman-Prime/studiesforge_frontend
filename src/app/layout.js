@@ -61,25 +61,22 @@ export const metadata = {
   },
 };
 
-const RootLayout = ({ children }) => {
+export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans bg-background text-foreground antialiased`}>
+    <html lang="en" className="w-full">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen w-full overflow-x-hidden bg-background font-sans text-foreground antialiased`}
+      >
         <AuthProvider>
           <Navbar />
           <ScrollToTop />
-
-          <main className="min-h-screen">
+          <main className="w-full">
             {children}
           </main>
-
           <Footer />
         </AuthProvider>
-
         <Toaster richColors position="top-right" />
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
